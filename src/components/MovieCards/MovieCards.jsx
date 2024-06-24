@@ -1,8 +1,50 @@
 import React from "react";
-import { addMoviesIntoWatchList } from "../../global/globalFunctions";
 
-const MovieCards = ({movie}) => {
+const MovieCards = ({ movie,watchList,setWatchList }) => {
 
+//******* REMOVE MOVIE FROM ANY(DYNAMIC) WATCH LIST ********/
+  const removeMovieFromWatchList = (movieId) => {
+    const updatedWatchList = watchList.map(watchListItem => ({
+      ...watchListItem,
+      movies: watchListItem.movies.filter(movie => movie.imdbID !== movieId),
+    }));
+    setWatchList(updatedWatchList);
+  };
+
+  //******* REMOVE MOVIE FROM SPECIFIC WATCH LIST ********/
+  const removeMovieFromDirectWatchList = (watchListName, movieId) => {
+    // Update the specific watch list
+    const updatedWatchList = watchList.map(watchListItem => {
+      if (watchListItem.name === watchListName) {
+        return {
+          ...watchListItem,
+          movies: watchListItem.movies.filter(movie => movie.imdbID !== movieId)
+        };
+      }
+      return watchListItem;
+    });
+    // Update the state with the new watch list
+    setWatchList(updatedWatchList);
+  };
+
+  //*******CHECK IS MOVIE INTO WTCHLIST ********/
+  const isMovieInWatchList = (imdbID) => {
+    return watchList?.some(watchListItem =>
+      watchListItem.movies.some(movie =>
+        movie.imdbID === imdbID 
+      )
+    );
+  };
+
+//******* ADD MOVIE INTO ANY(DYNAMIC) WATCHLIST ********/
+  const addMoviesIntoWatchList = (movie, selectedWatchList) => {
+    const updatedWatchList = watchList?.map((item) =>
+      item.name === selectedWatchList
+        ? { ...item, movies: [...item.movies, movie] }
+        : item
+    );
+    setWatchList(updatedWatchList);
+  };
 
 
   return (
@@ -14,9 +56,7 @@ const MovieCards = ({movie}) => {
           </span>
         </span>
         <p className="title">Professional</p>
-        <p className="info">
-          {movie?.Title}
-        </p>
+        <p className="info">{movie?.Title}</p>
         <ul className="features">
           <li>
             <span className="icon">
@@ -34,8 +74,11 @@ const MovieCards = ({movie}) => {
               </svg>
             </span>
             <span>
-            <img src={movie.Poster} alt={movie.Title} style={{ width: '100px' }} />
-
+              <img
+                src={movie.Poster}
+                alt={movie.Title}
+                style={{ width: "100px" }}
+              />
               <strong>{movie?.year}</strong> team members
             </span>
           </li>
@@ -78,18 +121,25 @@ const MovieCards = ({movie}) => {
         </ul>
         <div className="action">
           <a
-          onClick={()=>{
-            addMoviesIntoWatchList({
-              title:"hero",
-              year:"hero",
-              rating:"hero",
-              poster:"hero",
-              id:1
-            },"A")
-          }}
-           className="button" href="#">
+            onClick={() => {
+              addMoviesIntoWatchList(movie, "A");
+            }}
+            className="button"
+            href="#"
+          >
             Add Wishlist
           </a>
+          {isMovieInWatchList(movie?.imdbID) && (
+            <a
+              onClick={() => {
+                removeMovieFromDirectWatchList("A", movie.imdbID);
+              }}
+              className="button"
+              href="#"
+            >
+              Remove Wishlist
+            </a>
+          )}
         </div>
       </div>
     </div>
