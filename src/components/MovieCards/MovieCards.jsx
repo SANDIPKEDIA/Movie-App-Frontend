@@ -64,7 +64,7 @@ const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) 
         <h5 className="card-title w-100 nowrap text-truncate">
           {movie?.Title}
         </h5>
-        <p className="card-text text-secondary">{movie?.Year}</p>
+        <p className="card-text text-secondary">{movie?.Year} ({movie?.Type})</p>
       </div>
      
     </div>

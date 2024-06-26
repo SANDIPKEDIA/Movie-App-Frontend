@@ -107,52 +107,7 @@ const Login = () => {
       </div>
     </div>
 
-    // <div className="center-div">
-    //   <form className="form" onSubmit={handleLogin}>
-    //     <span className="title">Login into Movie App</span>
-    //     <p className="description">
-    //       Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing
-    //       velit quis. Duis tempor incididunt dolore.
-    //     </p>
-    //     <div>
-    //       <input
-    //         placeholder="Enter your email"
-    //         type="email"
-    //         required
-    //         name="email"
-    //         value={email}
-    //         onChange={(e) => {
-    //           setEmail(e.target.value);
-    //         }}
-    //         id="email-address"
-    //       />
-    //       <button type="submit">LOGIN</button>
-    //     </div>
-    //   </form>
-    //   <form className="form" onSubmit={registeredUser}>
-    //     <span className="title">SINGUP into Movie App</span>
-    //     <p className="description">
-    //       Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing
-    //       velit quis. Duis tempor incididunt dolore.
-    //     </p>
-    //     <div>
-    //       <input
-    //         placeholder="Enter your email"
-    //         type="email"
-    //         required
-    //         name="email"
-    //         value={email}
-    //         onChange={(e) => {
-    //           setEmail(e.target.value);
-    //         }}
-    //         id="email-address"
-    //       />
-    //       <button type="submit">LOGIN</button>
-    //     </div>
-    //   </form>
-    //   <button onClick={handleLogoutUser}>LOGOUT</button>
-    // </div>
-  );
+    );
 };
 
 export default Login;
