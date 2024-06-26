@@ -26,7 +26,7 @@ const Home = ({ watchList, setWatchList,selectedWatchList,setSelectedWatchList }
   const fetchMovies = async () => {
     startApiCall(setErrorMessage, setLoader);
     try {
-      const response = await axios.get(`http://www.omdbapi.com/`, {
+      const response = await axios.get(`https://www.omdbapi.com/`, {
         params: {
           apikey: security.APPKEY,
           s: searchQuery,
