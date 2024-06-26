@@ -3,30 +3,18 @@ import MovieCards from "../../components/MovieCards/MovieCards";
 import security from "../../global/security";
 import axios from "axios";
 import {
-  getSelectedWatchList,
-  setWatchListToLocalStorage,
   startApiCall,
-  storeSelectedWatchList,
-  viewMyWatchList,
 } from "../../global/globalFunctions";
 import HomeHeader from "./HomeHeader";
 import AddMoviesIntoList from "../../components/Watchlist/AddMoviesIntoList";
 import RemoveMoviesFromList from "../../components/Watchlist/RemoveMoviesFromList";
 
-const Home = ({ watchList, setWatchList }) => {
+const Home = ({ watchList, setWatchList,selectedWatchList,setSelectedWatchList }) => {
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedWatchList, setselectedWatchList] = useState(
-    getSelectedWatchList()
-  );
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMovie, setselectedMovie] = useState(null);
-
-    //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
-    useEffect(() => {
-      storeSelectedWatchList(watchList);
-    }, [selectedWatchList]);
     
   useEffect(() => {
     if (selectedWatchList?.movies) {
@@ -84,6 +72,7 @@ const Home = ({ watchList, setWatchList }) => {
       <div className="d-flex flex-wrap gap-3">
         {movies?.map((mv, index) => (
           <MovieCards
+          key={index}
             movie={mv}
             index={index}
             watchList={watchList}
@@ -101,6 +90,8 @@ const Home = ({ watchList, setWatchList }) => {
           watchList={watchList}
           setWatchList={setWatchList}
           selectedMovie={selectedMovie}
+          selectedWatchList={selectedWatchList}
+          setSelectedWatchList={setSelectedWatchList}
         />
       </div>
     </div>

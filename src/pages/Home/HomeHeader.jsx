@@ -18,12 +18,13 @@ const HomeHeader = ({
               {selectedWatchList?.name ? selectedWatchList?.name : "Movie App"}
             </span>
           </p>
-          {selectedWatchList?.name ? (
+          {selectedWatchList?.about && (
             <>
               <p className="h5 fw-bold mb-1">About this watchlist</p>
               <p className="mb-0">{selectedWatchList?.about}</p>
             </>
-          ) : (
+          )}
+          {!selectedWatchList?.name && (
             <p>
               Browse movies, add them to watchlists and share with friends. Just
               click the + to add a movie into your watchlist.

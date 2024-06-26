@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   clearSelectedWatchList,
   getUser,
@@ -10,11 +10,8 @@ import { toast } from "react-toastify";
 import AddWatchList from "../Watchlist/AddWatchList";
 import MainRoutes from "../../routes/MainRoutes";
 
-const Sidebar = ({watchList,setWatchList}) => {
+const Sidebar = ({watchList,setWatchList,selectedWatchList,setSelectedWatchList}) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedWatchList, setSelectedWatchList] = useState(null);
-  const navigate = useNavigate();
-
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
@@ -52,7 +49,10 @@ const Sidebar = ({watchList,setWatchList}) => {
         </div>
         <ul className="sidebar-nav">
           <li  className="sidebar-item">
-            <Link to={MainRoutes.HOME} onClick={clearSelectedWatchList} className="sidebar-link active">
+            <Link to={MainRoutes.HOME} onClick={()=>{
+              setSelectedWatchList(null)
+              clearSelectedWatchList()
+            }} className="sidebar-link active">
               <i className="lni lni-home"></i>
               <span>Home</span>
             </Link>
@@ -60,7 +60,7 @@ const Sidebar = ({watchList,setWatchList}) => {
           <hr className="main-bg-primary-light" />
           <li className="sidebar-item">
             <Link className="sidebar-link position-relative">
-              <i class="lni lni-list"></i>
+              <i className="lni lni-list"></i>
               <span>My Watchlist</span>
               <span
                 className="btn btn-icon position-right btn-light"
@@ -87,9 +87,10 @@ const Sidebar = ({watchList,setWatchList}) => {
                 : "hide-when-collapsed"
             }
           >
-            {watchList?.map((item) => {
+            {watchList?.map((item,index) => {
               return (
                 <div
+                key={index}
                   className="card py-2 px-3 w-210p"
                   style={{
                     border:

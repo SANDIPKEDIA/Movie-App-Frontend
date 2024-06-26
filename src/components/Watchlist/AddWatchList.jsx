@@ -53,7 +53,7 @@ const AddWatchListModal = ({ watchList, setWatchList }) => {
       id="add_movie"
     //   data-bs-backdrop="static"
     //   data-bs-keyboard="false"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
@@ -81,7 +81,7 @@ const AddWatchListModal = ({ watchList, setWatchList }) => {
                 </label>
                 <input
                   type="text"
-                  minLength={5}
+                  minLength={3}
                   maxLength={20}
                   className="form-control"
                   id="watchlist_name"
@@ -101,7 +101,7 @@ const AddWatchListModal = ({ watchList, setWatchList }) => {
                   onChange={handleChange}
                   value={watchListData.about}
                   id="watchlist_desc"
-                  minLength={10}
+                  minLength={4}
                   name="about"
                   maxLength={50}
                   placeholder="Tell us something about your watchlist"

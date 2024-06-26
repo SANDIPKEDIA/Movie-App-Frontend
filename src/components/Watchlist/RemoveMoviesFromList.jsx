@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ToasterMessages from "../../utils/toasterMessage";
 
-const RemoveMoviesFromList = ({ watchList, setWatchList, selectedMovie }) => {
+const RemoveMoviesFromList = ({ watchList, setWatchList, selectedMovie,selectedWatchList,setSelectedWatchList }) => {
 
   const resetData = () => {
     const closeModalDom = document.getElementById(
@@ -11,16 +11,27 @@ const RemoveMoviesFromList = ({ watchList, setWatchList, selectedMovie }) => {
     if (closeModalDom) closeModalDom.click();
   };
 
-  //******* REMOVE MOVIE FROM ANY(DYNAMIC) WATCH LIST ********/
-  const removeMovieFromWatchList = (movieId) => {
-    const updatedWatchList = watchList.map((watchListItem) => ({
+//******* REMOVE MOVIE FROM WATCH LIST ********/
+const removeMovieFromWatchList = (movieId) => {
+  let selectedList = null;
+  const updatedWatchList = watchList.map((watchListItem) => {
+    const updatedMovies = watchListItem.movies.filter((movie) => movie.imdbID !== movieId);
+    if (selectedWatchList?.name && selectedWatchList?.name === watchListItem.name) {
+      selectedList = { ...watchListItem, movies: updatedMovies };
+    }
+    return {
       ...watchListItem,
-      movies: watchListItem.movies.filter((movie) => movie.imdbID !== movieId),
-    }));
-    setWatchList(updatedWatchList);
-    toast.success(ToasterMessages.REMOVEWATCHLIST)
-    resetData()
-  };
+      movies: updatedMovies,
+    };
+  });
+  setWatchList(updatedWatchList);
+  if (selectedList) {
+    setSelectedWatchList(selectedList);
+  }
+  toast.success(ToasterMessages.REMOVEWATCHLIST);
+  resetData();
+};
+
 
 
   return (

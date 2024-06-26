@@ -5,8 +5,10 @@ import MainRoutes from "./routes/MainRoutes";
 import { ToastContainer } from "react-toastify";
 import { PrivateRoutes } from "./routes/PrivateRoutes";
 import {
+  getSelectedWatchList,
   getUser,
   setWatchListToLocalStorage,
+  storeSelectedWatchList,
   viewMyWatchList,
 } from "./global/globalFunctions";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -18,11 +20,19 @@ function App() {
   const isUserLoggedIn = getUser()?.length > 0;
   const navigate = useNavigate();
   const [watchList, setWatchList] = useState(viewMyWatchList());
+  const [selectedWatchList, setSelectedWatchList] = useState(
+    getSelectedWatchList()
+  );
 
   //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
   useEffect(() => {
     setWatchListToLocalStorage(watchList);
   }, [watchList]);
+
+  //******* FOR REALTIME GET SELECTED WATCHLIST DATA FROM LOCALSTORAGE********/
+  useEffect(() => {
+    storeSelectedWatchList(selectedWatchList);
+  }, [selectedWatchList]);
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -33,7 +43,12 @@ function App() {
   return (
     <div className="wrapper">
       {isUserLoggedIn && (
-        <Sidebar watchList={watchList} setWatchList={setWatchList} />
+        <Sidebar
+          watchList={watchList}
+          setWatchList={setWatchList}
+          setSelectedWatchList={setSelectedWatchList}
+          selectedWatchList={selectedWatchList}
+        />
       )}
       <div className="wrapper-main">
         <Suspense fallback={"Loading Movie App.."}>
@@ -43,7 +58,12 @@ function App() {
               <Route
                 path={MainRoutes.HOME}
                 element={
-                  <Home watchList={watchList} setWatchList={setWatchList} />
+                  <Home
+                    watchList={watchList}
+                    setWatchList={setWatchList}
+                    selectedWatchList={selectedWatchList}
+                    setSelectedWatchList={setSelectedWatchList}
+                  />
                 }
               />
             </Route>

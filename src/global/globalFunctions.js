@@ -35,12 +35,12 @@ export const storeSelectedWatchList = (watchList) => {
 
 //******* GET SELECTED WATCH LIST ********/
 export const getSelectedWatchList = () => {
-  const watchList = JSON.parse(localStorage.getItem(`selectedwatchList${getUser()}`)) || [];
+  const watchList = JSON.parse(localStorage.getItem(`selectedwatchList${getUser()}`)) || null;
   return watchList
 };
 
 //******* CLEAR SELECTED WATCH LIST ********/
 export const clearSelectedWatchList = () => {
-  const watchList = localStorage.removeItem(`selectedwatchList${getUser()}`);
+  const watchList = localStorage.setItem(`selectedwatchList${getUser()}`,null);
   return watchList
 };
