@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { setWatchListToLocalStorage, viewMyWatchList } from "../../global/globalFunctions";
 import { toast } from "react-toastify";
 import ToasterMessages from "../../utils/toasterMessage";
 

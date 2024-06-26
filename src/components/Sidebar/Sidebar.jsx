@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUser, setWatchListToLocalStorage, viewMyWatchList } from "../../global/globalFunctions";
+import {
+  clearSelectedWatchList,
+  getUser,
+  selectWatchList,
+  setWatchListToLocalStorage,
+  viewMyWatchList,
+} from "../../global/globalFunctions";
 import ToasterMessages from "../../utils/toasterMessage";
 import { toast } from "react-toastify";
 import AddWatchList from "../Watchlist/AddWatchList";
+import MainRoutes from "../../routes/MainRoutes";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [watchList, setWatchList] = useState(viewMyWatchList());
+  const [selectedWatchList, setSelectedWatchList] = useState(null);
+  const navigate = useNavigate();
 
   //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
   useEffect(() => {
@@ -31,6 +40,12 @@ const Sidebar = () => {
     setWatchList(updatedWatchList);
   };
 
+  const handleSelectWatchList = (wl) => {
+    selectWatchList(wl);
+    setSelectedWatchList(wl);
+    navigate(MainRoutes.WATCHLIST);
+  };
+
   return (
     <>
       <aside id="sidebar" className={isExpanded ? "expand" : ""}>
@@ -39,45 +54,14 @@ const Sidebar = () => {
             <i className="lni lni-grid-alt main-text-primary"></i>
           </button>
           <div className="sidebar-logo">
-            <Link to="/" className="main-text-primary">
+            <Link to={MainRoutes.HOME} className="main-text-primary">
               Watchlists
             </Link>
           </div>
         </div>
         <ul className="sidebar-nav">
-          <li className="sidebar-item">
-            <Link className="sidebar-link">
-              <span>
-                <div className="input-group">
-                  <span
-                    className="input-group-text bg-white"
-                    id="main_form"
-                    style={{ borderRight: "none" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-search"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control focus-none"
-                    style={{ borderLeft: "none" }}
-                    aria-describedby="main_form"
-                    placeholder="Search"
-                  />
-                </div>
-              </span>
-            </Link>
-          </li>
-          <li className="sidebar-item">
-            <Link to="/" className="sidebar-link active">
+          <li  className="sidebar-item">
+            <Link to={MainRoutes.HOME} onClick={clearSelectedWatchList} className="sidebar-link active">
               <i className="lni lni-home"></i>
               <span>Home</span>
             </Link>
@@ -114,10 +98,24 @@ const Sidebar = () => {
           >
             {watchList?.map((item) => {
               return (
-                <div className="card py-2 px-3 w-210p">
+                <div
+                  className="card py-2 px-3 w-210p"
+                  style={{
+                    border:
+                      item?.name === selectedWatchList?.name
+                        ? "2px solid #f33f40"
+                        : "",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    handleSelectWatchList(item);
+                  }}
+                >
                   <div className="d-flex align-items-center gap-2">
                     <i className="lni lni-slack"></i>
-                    <span>{item?.name} ({item?.movies?.length})</span>
+                    <span>
+                      {item?.name} ({item?.movies?.length})
+                    </span>
                   </div>
                 </div>
               );

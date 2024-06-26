@@ -5,7 +5,9 @@ const ToasterMessages = {
   USERNOTEXISTS: "This email is not registered yet.",
   LOGOUT: "Successfully Logged Out",
   REGISTERED: "User Successfully Registered",
-  ADDWATCHLIST: "Add Wishlist Successfully",
+  ADDWATCHLIST: "Movie Add into Wishlist Successfully",
+  REMOVEWATCHLIST: "Movie Removed from Wishlist Successfully",
+
 };
 
 export default ToasterMessages;

@@ -28,4 +28,19 @@ export const viewMyWatchList = () => {
 };
 
 
+//******* SELECT WATCH LIST ********/
+export const selectWatchList = (watchList) => {
+  localStorage.setItem(`selectedwatchList${getUser()}`, JSON.stringify(watchList));
+};
 
+//******* GET SELECTED WATCH LIST ********/
+export const getSelectedWatchList = () => {
+  const watchList = JSON.parse(localStorage.getItem(`selectedwatchList${getUser()}`)) || [];
+  return watchList
+};
+
+//******* CLEAR SELECTED WATCH LIST ********/
+export const clearSelectedWatchList = () => {
+  const watchList = localStorage.removeItem(`selectedwatchList${getUser()}`);
+  return watchList
+};

@@ -16,8 +16,8 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isUserLoggedIn) {
-      navigate(MainRoutes.HOME);
+    if (!isUserLoggedIn) {
+      navigate(MainRoutes.LOGIN);
     }
   }, [navigate]);
 
@@ -30,6 +30,7 @@ function App() {
             <Route path={MainRoutes.LOGIN} element={<Login />} />
             <Route element={<PrivateRoutes isUserLoggedIn={isUserLoggedIn} />}>
               <Route path={MainRoutes.HOME} element={<Home />} />
+              <Route path={MainRoutes.MYWATACHLIST} element={<Home />} />
             </Route>
           </Routes>
         </Suspense>

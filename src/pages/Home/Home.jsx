@@ -3,24 +3,30 @@ import MovieCards from "../../components/MovieCards/MovieCards";
 import security from "../../global/security";
 import axios from "axios";
 import {
+  getSelectedWatchList,
   setWatchListToLocalStorage,
   startApiCall,
   viewMyWatchList,
 } from "../../global/globalFunctions";
-import { toast } from "react-toastify";
-import ToasterMessages from "../../utils/toasterMessage";
-import Page1 from "./Page1";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Page2 from "./Page2";
-import ApiCallLoader from "../../components/Loaders/ApiCallLoader";
+import HomeHeader from "./HomeHeader";
+import AddMoviesIntoList from "../../components/Watchlist/AddMoviesIntoList";
+import RemoveMoviesFromList from "../../components/Watchlist/RemoveMoviesFromList";
 
 const Home = () => {
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedWatchList, setselectedWatchList] = useState(getSelectedWatchList())
   const [movies, setMovies] = useState([]);
   const [watchList, setWatchList] = useState(viewMyWatchList());
   const [searchQuery, setSearchQuery] = useState("");
+const [selectedMovie, setselectedMovie] = useState(null)
 
+  useEffect(() => {
+    if(selectedWatchList?.movies){
+      setMovies(selectedWatchList?.movies)
+    }
+  }, [selectedWatchList])
+  
   //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
   useEffect(() => {
     setWatchListToLocalStorage(watchList);
@@ -65,92 +71,29 @@ const Home = () => {
 
   return (
     <div className="d-flex flex-column gap-3 p-3">
-      <div className="card main-border-primary w-100">
-        <div className="card-body">
-          <p className="h1 mb-4">
-            Welcome to <span className="main-text-primary">Watchlist</span>
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            sed nemo cum quibusdam dolorem ad fugiat magnam iure assumenda vero
-            ea molestiae quis saepe vitae sint consectetur, ipsa harum aut.
-            Maiores et tempore dicta ullam quos dolore at id sapiente.
-          </p>
-        </div>
-      </div>
-
-      <form onSubmit={handleSearchSubmit}>
-        <div className="input-group mb-3">
-          <span
-            className="input-group-text bg-white"
-            id="main_form"
-            style={{ borderRight: "none" }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-search"
-              viewBox="0 0 16 16"
-            >
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg>
-          </span>
-          <input
-            className="form-control focus-none"
-            style={{ borderLeft: "none" }}
-            aria-describedby="main_form"
-            placeholder="Search"
-            type="search"
-            value={searchQuery}
-            required
-            minLength={3}
-            maxLength={12}
-            onChange={handleSearchInputChange}
-          />
-          <button
-          disabled={loader}
-
-            type="submit"
-            className="input-group-text main-btn-primary"
-          >
-            {loader?<ApiCallLoader />:"Search"}
-          </button>
-        </div>
-      </form>
-      <Page1 movies={movies} watchList={watchList} setWatchList={setWatchList} />
-
-      {/* <form onSubmit={handleSearchSubmit}>
-        <input
-          type="search"
-          value={searchQuery}
-          required
-          minLength={3}
-          maxLength={12}
-          onChange={handleSearchInputChange}
-          placeholder="Enter movie title"
-        />
-        <button type="submit">Search</button>
-      </form>
-      {movies?.slice(0, 1)?.map((movie,index) => {
-        return (
+      <HomeHeader
+        handleSearchInputChange={handleSearchInputChange}
+        handleSearchSubmit={handleSearchSubmit}
+        searchQuery={searchQuery}
+        loader={loader}
+        selectedWatchList={selectedWatchList}
+      />
+      {loader && <p>Searching Movies...</p>}
+      <div className="d-flex flex-wrap gap-3">
+        {movies?.map((mv, index) => (
           <MovieCards
-          key={index}
-            movie={movie}
+            movie={mv}
+            index={index}
             watchList={watchList}
             setWatchList={setWatchList}
+            setselectedMovie={setselectedMovie}
           />
-        );
-      })}
-      <button onClick={FuncaddWatchList}>Add watch list</button>
-      <button
-        onClick={() => {
-          removeWatchList("A");
-        }}
-      >
-        Remove watch list
-      </button> */}
+        ))}
+        {movies?.length === 0 && !loader && <p>No Movies</p>}
+        <AddMoviesIntoList selectedMovie={selectedMovie} watchList={watchList} setWatchList={setWatchList} />
+        <RemoveMoviesFromList watchList={watchList} setWatchList={setWatchList} selectedMovie={selectedMovie} />
+      </div>
+
     </div>
   );
 };

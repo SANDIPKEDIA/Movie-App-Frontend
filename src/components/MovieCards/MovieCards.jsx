@@ -1,30 +1,6 @@
 import React from "react";
 
-const MovieCards = ({ movie, index, watchList, setWatchList }) => {
-  //******* REMOVE MOVIE FROM ANY(DYNAMIC) WATCH LIST ********/
-  const removeMovieFromWatchList = (movieId) => {
-    const updatedWatchList = watchList.map((watchListItem) => ({
-      ...watchListItem,
-      movies: watchListItem.movies.filter((movie) => movie.imdbID !== movieId),
-    }));
-    setWatchList(updatedWatchList);
-  };
-
-  //******* REMOVE MOVIE FROM SPECIFIC WATCH LIST ********/
-  const removeMovieFromDirectWatchList = (watchListName, movieId) => {
-    const updatedWatchList = watchList.map((watchListItem) => {
-      if (watchListItem.name === watchListName) {
-        return {
-          ...watchListItem,
-          movies: watchListItem.movies.filter(
-            (movie) => movie.imdbID !== movieId
-          ),
-        };
-      }
-      return watchListItem;
-    });
-    setWatchList(updatedWatchList);
-  };
+const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) => {
 
   //*******CHECK IS MOVIE INTO WTCHLIST ********/
   const isMovieInWatchList = (imdbID) => {
@@ -33,15 +9,7 @@ const MovieCards = ({ movie, index, watchList, setWatchList }) => {
     );
   };
 
-  //******* ADD MOVIE INTO ANY(DYNAMIC) WATCHLIST ********/
-  const addMoviesIntoWatchList = (movie, selectedWatchList) => {
-    const updatedWatchList = watchList?.map((item) =>
-      item.name === selectedWatchList
-        ? { ...item, movies: [...item.movies, movie] }
-        : item
-    );
-    setWatchList(updatedWatchList);
-  };
+
 
   return (
     <div
@@ -52,11 +20,15 @@ const MovieCards = ({ movie, index, watchList, setWatchList }) => {
         {isMovieInWatchList(movie?.imdbID) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
+            onClick={()=>{setselectedMovie(movie)}}
+            data-bs-toggle="modal"
+            data-bs-target="#remove_movie_from_watchlist"
             width="34"
             height="34"
-            fill="currentColor"
+            fill="#52eeaa"
             className="bi bi-bookmark-check-fill"
             viewBox="0 0 16 16"
+            style={{cursor:"pointer"}}
           >
             <path
               fill-rule="evenodd"
@@ -65,12 +37,15 @@ const MovieCards = ({ movie, index, watchList, setWatchList }) => {
           </svg>
         ) : (
           <svg
-          onClick={()=>{addMoviesIntoWatchList(movie,"Sandip Kedia3")}}
+          data-bs-toggle="modal"
+          data-bs-target="#add_movie_into_watchlist"
+          onClick={()=>{setselectedMovie(movie)}}
             xmlns="http://www.w3.org/2000/svg"
             width="34"
             height="34"
             fill="#fff"
             className="bi bi-bookmark-plus-fill"
+            style={{cursor:"pointer"}}
             viewBox="0 0 16 16"
           >
             <path
@@ -86,24 +61,12 @@ const MovieCards = ({ movie, index, watchList, setWatchList }) => {
         alt={`Image for ${movie?.Title}`}
       />
       <div className="card-body">
-        {/* <div className="d-flex align-items-center justify-content-end gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="28"
-          fill="currentColor"
-          className="bi bi-emoji-smile-fill text-success"
-          viewBox="0 0 16 16"
-        >
-          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5M4.285 9.567a.5.5 0 0 1 .683.183A3.5 3.5 0 0 0 8 11.5a3.5 3.5 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683M10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8" />
-        </svg>
-        {`${index + 1}/5`}
-      </div> */}
         <h5 className="card-title w-100 nowrap text-truncate">
           {movie?.Title}
         </h5>
         <p className="card-text text-secondary">{movie?.Year}</p>
       </div>
+     
     </div>
   );
 };
