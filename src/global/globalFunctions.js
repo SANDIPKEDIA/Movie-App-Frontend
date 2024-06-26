@@ -29,7 +29,7 @@ export const viewMyWatchList = () => {
 
 
 //******* SELECT WATCH LIST ********/
-export const selectWatchList = (watchList) => {
+export const storeSelectedWatchList = (watchList) => {
   localStorage.setItem(`selectedwatchList${getUser()}`, JSON.stringify(watchList));
 };
 

@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   clearSelectedWatchList,
   getUser,
-  selectWatchList,
-  setWatchListToLocalStorage,
-  viewMyWatchList,
+  storeSelectedWatchList,
 } from "../../global/globalFunctions";
 import ToasterMessages from "../../utils/toasterMessage";
 import { toast } from "react-toastify";
 import AddWatchList from "../Watchlist/AddWatchList";
 import MainRoutes from "../../routes/MainRoutes";
 
-const Sidebar = () => {
+const Sidebar = ({watchList,setWatchList}) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [watchList, setWatchList] = useState(viewMyWatchList());
   const [selectedWatchList, setSelectedWatchList] = useState(null);
   const navigate = useNavigate();
 
-  //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
-  useEffect(() => {
-    setWatchListToLocalStorage(watchList);
-  }, [watchList]);
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
@@ -36,14 +29,12 @@ const Sidebar = () => {
     const updatedWatchList = watchList.filter(
       (watchListItem) => watchListItem.name !== watchListName
     );
-    // Update the state with the new watch list
     setWatchList(updatedWatchList);
   };
 
   const handleSelectWatchList = (wl) => {
-    selectWatchList(wl);
+    storeSelectedWatchList(wl);
     setSelectedWatchList(wl);
-    navigate(MainRoutes.WATCHLIST);
   };
 
   return (

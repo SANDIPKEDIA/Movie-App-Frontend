@@ -19,10 +19,10 @@ const HomeHeader = ({
             </span>
           </p>
           {selectedWatchList?.name ? (
-            <p>
-              <span style={{ fontWeight: "bold" }}>About this watchlist</span>
-              <p>{selectedWatchList?.about}</p>
-            </p>
+            <>
+              <p className="h5 fw-bold mb-1">About this watchlist</p>
+              <p className="mb-0">{selectedWatchList?.about}</p>
+            </>
           ) : (
             <p>
               Browse movies, add them to watchlists and share with friends. Just

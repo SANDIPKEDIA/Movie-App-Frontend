@@ -6,31 +6,33 @@ import {
   getSelectedWatchList,
   setWatchListToLocalStorage,
   startApiCall,
+  storeSelectedWatchList,
   viewMyWatchList,
 } from "../../global/globalFunctions";
 import HomeHeader from "./HomeHeader";
 import AddMoviesIntoList from "../../components/Watchlist/AddMoviesIntoList";
 import RemoveMoviesFromList from "../../components/Watchlist/RemoveMoviesFromList";
 
-const Home = () => {
+const Home = ({ watchList, setWatchList }) => {
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedWatchList, setselectedWatchList] = useState(getSelectedWatchList())
+  const [selectedWatchList, setselectedWatchList] = useState(
+    getSelectedWatchList()
+  );
   const [movies, setMovies] = useState([]);
-  const [watchList, setWatchList] = useState(viewMyWatchList());
   const [searchQuery, setSearchQuery] = useState("");
-const [selectedMovie, setselectedMovie] = useState(null)
+  const [selectedMovie, setselectedMovie] = useState(null);
 
+    //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
+    useEffect(() => {
+      storeSelectedWatchList(watchList);
+    }, [selectedWatchList]);
+    
   useEffect(() => {
-    if(selectedWatchList?.movies){
-      setMovies(selectedWatchList?.movies)
+    if (selectedWatchList?.movies) {
+      setMovies(selectedWatchList?.movies);
     }
-  }, [selectedWatchList])
-  
-  //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
-  useEffect(() => {
-    setWatchListToLocalStorage(watchList);
-  }, [watchList]);
+  }, [selectedWatchList]);
 
   //******* START FETCH MOVIES FROM SEARCH API OF OMDB********/
   const fetchMovies = async () => {
@@ -90,10 +92,17 @@ const [selectedMovie, setselectedMovie] = useState(null)
           />
         ))}
         {movies?.length === 0 && !loader && <p>No Movies</p>}
-        <AddMoviesIntoList selectedMovie={selectedMovie} watchList={watchList} setWatchList={setWatchList} />
-        <RemoveMoviesFromList watchList={watchList} setWatchList={setWatchList} selectedMovie={selectedMovie} />
+        <AddMoviesIntoList
+          selectedMovie={selectedMovie}
+          watchList={watchList}
+          setWatchList={setWatchList}
+        />
+        <RemoveMoviesFromList
+          watchList={watchList}
+          setWatchList={setWatchList}
+          selectedMovie={selectedMovie}
+        />
       </div>
-
     </div>
   );
 };

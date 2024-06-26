@@ -4,8 +4,11 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import MainRoutes from "./routes/MainRoutes";
 import { ToastContainer } from "react-toastify";
 import { PrivateRoutes } from "./routes/PrivateRoutes";
-import PageLoader from "./components/Loaders/PageLoader";
-import { getUser } from "./global/globalFunctions";
+import {
+  getUser,
+  setWatchListToLocalStorage,
+  viewMyWatchList,
+} from "./global/globalFunctions";
 import Sidebar from "./components/Sidebar/Sidebar";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
@@ -14,6 +17,12 @@ const Home = lazy(() => import("./pages/Home/Home"));
 function App() {
   const isUserLoggedIn = getUser()?.length > 0;
   const navigate = useNavigate();
+  const [watchList, setWatchList] = useState(viewMyWatchList());
+
+  //******* FOR REALTIME GET WATCHLIST DATA FROM LOCALSTORAGE********/
+  useEffect(() => {
+    setWatchListToLocalStorage(watchList);
+  }, [watchList]);
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -23,14 +32,20 @@ function App() {
 
   return (
     <div className="wrapper">
-      {isUserLoggedIn &&<Sidebar />}
+      {isUserLoggedIn && (
+        <Sidebar watchList={watchList} setWatchList={setWatchList} />
+      )}
       <div className="wrapper-main">
-        <Suspense fallback={<PageLoader />}>
+        <Suspense fallback={"Loading Movie App.."}>
           <Routes>
             <Route path={MainRoutes.LOGIN} element={<Login />} />
             <Route element={<PrivateRoutes isUserLoggedIn={isUserLoggedIn} />}>
-              <Route path={MainRoutes.HOME} element={<Home />} />
-              <Route path={MainRoutes.MYWATACHLIST} element={<Home />} />
+              <Route
+                path={MainRoutes.HOME}
+                element={
+                  <Home watchList={watchList} setWatchList={setWatchList} />
+                }
+              />
             </Route>
           </Routes>
         </Suspense>
