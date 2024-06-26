@@ -87,11 +87,11 @@ const AddMoviesIntoList = ({ watchList, setWatchList, selectedMovie }) => {
                 <p>Please add a watchlist to add movie</p>
               )}
             </div>
-            <div className="modal-footer">
+            {watchList?.length>0 &&<div className="modal-footer">
               <button type="submit" className="btn main-btn-primary">
                 Add
               </button>
-            </div>
+            </div>}
           </form>
         </div>
       </div>
