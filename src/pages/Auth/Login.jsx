@@ -37,6 +37,7 @@ const Login = () => {
       localStorage.setItem("userList", JSON.stringify(updatedUserList));
       toast.success(ToasterMessages.REGISTERED);
       setEmail("");
+      setisSignUp(false)
     }
   };
 
