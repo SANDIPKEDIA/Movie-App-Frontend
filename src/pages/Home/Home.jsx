@@ -2,23 +2,27 @@ import React, { useEffect, useState } from "react";
 import MovieCards from "../../components/MovieCards/MovieCards";
 import security from "../../global/security";
 import axios from "axios";
-import {
-  startApiCall,
-} from "../../global/globalFunctions";
+import { startApiCall } from "../../global/globalFunctions";
 import HomeHeader from "./HomeHeader";
 import AddMoviesIntoList from "../../components/Watchlist/AddMoviesIntoList";
 import RemoveMoviesFromList from "../../components/Watchlist/RemoveMoviesFromList";
 
-const Home = ({ watchList, setWatchList,selectedWatchList,setSelectedWatchList }) => {
+const Home = ({
+  watchList,
+  setWatchList,
+  selectedWatchList,
+  setSelectedWatchList,
+}) => {
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMovie, setselectedMovie] = useState(null);
-  
+
   useEffect(() => {
       setMovies(selectedWatchList?.movies || []);
   }, [selectedWatchList]);
+
 
   //******* START FETCH MOVIES FROM SEARCH API OF OMDB********/
   const fetchMovies = async () => {
@@ -58,41 +62,48 @@ const Home = ({ watchList, setWatchList,selectedWatchList,setSelectedWatchList }
   };
 
   return (
-    <div className="d-flex flex-column gap-3 p-3">
-      <HomeHeader
-        handleSearchInputChange={handleSearchInputChange}
-        handleSearchSubmit={handleSearchSubmit}
-        searchQuery={searchQuery}
-        loader={loader}
-        selectedWatchList={selectedWatchList}
-      />
-      {loader && <p>Searching Movies...</p>}
-      <div className="d-flex flex-wrap gap-3">
-        {movies?.map((mv, index) => (
-          <MovieCards
-          key={index}
-            movie={mv}
-            index={index}
-            watchList={watchList}
-            setWatchList={setWatchList}
-            setselectedMovie={setselectedMovie}
-          />
-        ))}
-        {movies?.length === 0 && !loader && <p>No Movies</p>}
-        <AddMoviesIntoList
-          selectedMovie={selectedMovie}
-          watchList={watchList}
-          setWatchList={setWatchList}
-        />
-        <RemoveMoviesFromList
-          watchList={watchList}
-          setWatchList={setWatchList}
-          selectedMovie={selectedMovie}
+    <>
+      <div className="d-flex flex-column gap-3 p-3">
+        <HomeHeader
+          handleSearchInputChange={handleSearchInputChange}
+          handleSearchSubmit={handleSearchSubmit}
+          searchQuery={searchQuery}
+          loader={loader}
           selectedWatchList={selectedWatchList}
+          watchList={watchList}
+          setWatchList={setWatchList}
           setSelectedWatchList={setSelectedWatchList}
         />
+        {loader && <p>Searching Movies...</p>}
+        <div className="row g-5">
+          {movies?.map((mv, index) => (
+            <div className="col-lg-3 col-md-6 d-flex justify-content-center">
+              <MovieCards
+                key={index}
+                movie={mv}
+                index={index}
+                watchList={watchList}
+                setWatchList={setWatchList}
+                setselectedMovie={setselectedMovie}
+              />
+            </div>
+          ))}
+        </div>
+        {movies?.length === 0 && !loader && <p className="mt-2">No Movies</p>}
       </div>
-    </div>
+      <AddMoviesIntoList
+        selectedMovie={selectedMovie}
+        watchList={watchList}
+        setWatchList={setWatchList}
+      />
+      <RemoveMoviesFromList
+        watchList={watchList}
+        setWatchList={setWatchList}
+        selectedMovie={selectedMovie}
+        selectedWatchList={selectedWatchList}
+        setSelectedWatchList={setSelectedWatchList}
+      />
+    </>
   );
 };
 

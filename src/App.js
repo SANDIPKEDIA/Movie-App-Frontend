@@ -35,8 +35,8 @@ function App() {
   }, [selectedWatchList]);
 
   useEffect(() => {
-    if (!isUserLoggedIn) {
-      navigate(MainRoutes.LOGIN);
+    if (isUserLoggedIn) {
+      navigate(MainRoutes.HOME);
     }
   }, [navigate]);
 

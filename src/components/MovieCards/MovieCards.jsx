@@ -1,15 +1,18 @@
 import React from "react";
-
-const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) => {
-
+import noImg from "../../assets/images/no-img.jpg";
+const MovieCards = ({
+  movie,
+  index,
+  watchList,
+  setWatchList,
+  setselectedMovie,
+}) => {
   //*******CHECK IS MOVIE INTO WTCHLIST ********/
   const isMovieInWatchList = (imdbID) => {
     return watchList?.some((watchListItem) =>
       watchListItem.movies.some((movie) => movie.imdbID === imdbID)
     );
   };
-
-
 
   return (
     <div
@@ -20,7 +23,9 @@ const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) 
         {isMovieInWatchList(movie?.imdbID) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            onClick={()=>{setselectedMovie(movie)}}
+            onClick={() => {
+              setselectedMovie(movie);
+            }}
             data-bs-toggle="modal"
             data-bs-target="#remove_movie_from_watchlist"
             width="34"
@@ -28,7 +33,7 @@ const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) 
             fill="#52eeaa"
             className="bi bi-bookmark-check-fill"
             viewBox="0 0 16 16"
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
           >
             <path
               fillRule="evenodd"
@@ -37,15 +42,17 @@ const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) 
           </svg>
         ) : (
           <svg
-          data-bs-toggle="modal"
-          data-bs-target="#add_movie_into_watchlist"
-          onClick={()=>{setselectedMovie(movie)}}
+            data-bs-toggle="modal"
+            data-bs-target="#add_movie_into_watchlist"
+            onClick={() => {
+              setselectedMovie(movie);
+            }}
             xmlns="http://www.w3.org/2000/svg"
             width="34"
             height="34"
             fill="#fff"
             className="bi bi-bookmark-plus-fill"
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             viewBox="0 0 16 16"
           >
             <path
@@ -56,7 +63,8 @@ const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) 
         )}
       </span>
       <img
-        src={movie?.Poster}
+       loading="lazy"
+        src={movie?.Poster !== "N/A" ? movie?.Poster : noImg}
         className="card-img-top"
         alt={`Image for ${movie?.Title}`}
       />
@@ -64,9 +72,10 @@ const MovieCards = ({ movie, index, watchList, setWatchList,setselectedMovie }) 
         <h5 className="card-title w-100 nowrap text-truncate">
           {movie?.Title}
         </h5>
-        <p className="card-text text-secondary">{movie?.Year} ({movie?.Type})</p>
+        <p className="card-text text-secondary">
+          {movie?.Year} ({movie?.Type})
+        </p>
       </div>
-     
     </div>
   );
 };
