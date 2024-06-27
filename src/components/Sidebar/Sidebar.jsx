@@ -50,7 +50,7 @@ const Sidebar = ({
             </button>
             <div className="sidebar-logo">
               <Link to={MainRoutes.HOME} className="main-text-primary">
-                Watchlists
+                Movie App
               </Link>
             </div>
           </div>
@@ -174,7 +174,7 @@ const Sidebar = ({
             to={MainRoutes.HOME}
             className="fw-bold h4 mb-0 navbar-brand main-text-primary"
           >
-            Watchlists
+            Movie App
           </Link>
           <span
             className="navbar-toggler btn btn-icon main-btn-primary"
