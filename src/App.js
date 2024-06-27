@@ -13,7 +13,7 @@ import {
 } from "./global/globalFunctions";
 import Sidebar from "./components/Sidebar/Sidebar";
 
-const Login = lazy(() => import("./pages/Auth/Login"));
+const Auth = lazy(() => import("./pages/Auth/Auth"));
 const Home = lazy(() => import("./pages/Home/Home"));
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
       <div className="wrapper-main">
         <Suspense fallback={"Loading Movie App.."}>
           <Routes>
-            <Route path={MainRoutes.LOGIN} element={<Login />} />
+            <Route path={MainRoutes.LOGIN} element={<Auth />} />
             <Route element={<PrivateRoutes isUserLoggedIn={isUserLoggedIn} />}>
               <Route
                 path={MainRoutes.HOME}

@@ -4,7 +4,7 @@ import MainRoutes from "../../routes/MainRoutes";
 import { useNavigate } from "react-router-dom";
 import ToasterMessages from "../../utils/toasterMessage";
 
-const Login = () => {
+const Auth = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const [isSignUp, setisSignUp] = useState(false);
@@ -110,4 +110,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Auth;
