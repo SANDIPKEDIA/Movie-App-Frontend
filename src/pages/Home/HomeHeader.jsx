@@ -1,5 +1,7 @@
 import React from "react";
 import ApiCallLoader from "../../components/Loaders/ApiCallLoader";
+import { toast } from "react-toastify";
+import ToasterMessages from "../../utils/toasterMessage";
 
 const HomeHeader = ({
   handleSearchInputChange,
@@ -18,6 +20,7 @@ const HomeHeader = ({
     );
     setWatchList(updatedWatchList);
     setSelectedWatchList(null)
+    toast.success(ToasterMessages.DELETEWATCHLIST)
   };
 
 
@@ -48,7 +51,7 @@ const HomeHeader = ({
                 </p>
               )}
             </div>
-            {selectedWatchList?.about && (
+            {selectedWatchList?.name && (
               <span onClick={removeWatchList} className="btn btn-icon rounded-circle btn-outline-danger">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

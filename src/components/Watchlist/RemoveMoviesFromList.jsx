@@ -28,7 +28,7 @@ const removeMovieFromWatchList = (movieId) => {
   if (selectedList) {
     setSelectedWatchList(selectedList);
   }
-  toast.success(ToasterMessages.REMOVEWATCHLIST);
+  toast.success(ToasterMessages.REMOVEMOVIE);
   resetData();
 };
 

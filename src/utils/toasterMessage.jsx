@@ -6,8 +6,8 @@ const ToasterMessages = {
   LOGOUT: "Successfully Logged Out",
   REGISTERED: "User Successfully Registered",
   ADDWATCHLIST: "Movie Add into Wishlist Successfully",
-  REMOVEWATCHLIST: "Movie Removed from Wishlist Successfully",
-
+  REMOVEMOVIE: "Movie Removed from Wishlist Successfully",
+  DELETEWATCHLIST: "Watchlist Deleted Successfully",
 };
 
 export default ToasterMessages;
