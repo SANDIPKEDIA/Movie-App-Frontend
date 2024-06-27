@@ -15,11 +15,9 @@ const Home = ({ watchList, setWatchList,selectedWatchList,setSelectedWatchList }
   const [movies, setMovies] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMovie, setselectedMovie] = useState(null);
-    
+  
   useEffect(() => {
-    if (selectedWatchList?.movies) {
-      setMovies(selectedWatchList?.movies);
-    }
+      setMovies(selectedWatchList?.movies || []);
   }, [selectedWatchList]);
 
   //******* START FETCH MOVIES FROM SEARCH API OF OMDB********/
