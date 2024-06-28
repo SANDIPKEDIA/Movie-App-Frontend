@@ -61,6 +61,7 @@ const Auth = () => {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   value={email}
+                  required
                   minLength={4}
                   onChange={(e) => {
                     setEmail(e.target.value);
